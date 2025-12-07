@@ -1,0 +1,783 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starline Airways</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8fafc;
+      color: #1e293b;
+      height: 100%;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .page-wrapper {
+      width: 100%;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header Styles */
+    header {
+      background: linear-gradient(135deg, #0c4a6e 0%, #075985 100%);
+      color: white;
+      padding: 1.5rem 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 100%;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      background: white;
+      border-radius: 8px;
+      padding: 4px;
+    }
+
+    .brand-text h1 {
+      margin: 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .brand-text p {
+      margin: 0.25rem 0 0 0;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+
+    nav {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      padding: 0.6rem 1.2rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .nav-btn:hover {
+      background: rgba(255,255,255,0.2);
+      border-color: rgba(255,255,255,0.4);
+    }
+
+    .nav-btn.active {
+      background: white;
+      color: #0c4a6e;
+    }
+
+    /* Main Content */
+    main {
+      flex: 1;
+      width: 100%;
+      padding: 3rem 2rem;
+    }
+
+    .content-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .page {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+      color: white;
+      padding: 4rem 2rem;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 16px rgba(3,105,161,0.2);
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin: 0 0 1rem 0;
+      font-weight: 600;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin: 0;
+      opacity: 0.95;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Content Sections */
+    .content-section {
+      background: white;
+      padding: 2.5rem;
+      border-radius: 12px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 4px solid #0284c7;
+    }
+
+    .content-section h3 {
+      color: #0c4a6e;
+      font-size: 1.8rem;
+      margin: 0 0 1.5rem 0;
+      font-weight: 600;
+    }
+
+    .content-section h4 {
+      color: #075985;
+      font-size: 1.3rem;
+      margin: 2rem 0 1rem 0;
+      font-weight: 600;
+    }
+
+    .content-section p {
+      line-height: 1.8;
+      color: #334155;
+      margin: 0 0 1rem 0;
+    }
+
+    .content-section ul {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0;
+    }
+
+    .content-section li {
+      padding: 0.75rem 0 0.75rem 2rem;
+      position: relative;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    .content-section li:before {
+      content: "✈";
+      position: absolute;
+      left: 0;
+      color: #0284c7;
+      font-weight: bold;
+    }
+
+    /* Grid Layouts */
+    .two-column {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .info-card {
+      background: #f1f5f9;
+      padding: 2rem;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .info-card h4 {
+      color: #0c4a6e;
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    /* Contact Section */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-item {
+      text-align: center;
+      padding: 2rem;
+      background: #f0f9ff;
+      border-radius: 8px;
+      border: 2px solid #bae6fd;
+    }
+
+    .contact-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-item h4 {
+      color: #0c4a6e;
+      margin: 0.5rem 0;
+      font-size: 1.1rem;
+    }
+
+    .contact-item p {
+      color: #475569;
+      margin: 0.5rem 0;
+    }
+
+    /* Footer */
+    footer {
+      background: #1e293b;
+      color: white;
+      text-align: center;
+      padding: 2rem;
+      margin-top: auto;
+      width: 100%;
+    }
+
+    footer p {
+      margin: 0.5rem 0;
+      opacity: 0.9;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      nav {
+        justify-content: center;
+      }
+
+      .hero h2 {
+        font-size: 2rem;
+      }
+
+      .hero p {
+        font-size: 1rem;
+      }
+
+      .content-section {
+        padding: 1.5rem;
+      }
+
+      main {
+        padding: 2rem 1rem;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body>
+  <div class="page-wrapper">
+   <header>
+    <div class="header-content">
+     <div class="logo-section"><img src="https://i.ibb.co/0p7NMwBH/IMG-2990.jpg" alt="Starline Logo" class="logo" onerror="this.style.display='none';">
+      <div class="brand-text">
+       <h1 id="airline-name">Starline</h1>
+       <p id="tagline">Excellence in Aviation</p>
+      </div>
+     </div>
+     <nav><button class="nav-btn active" onclick="showPage('home')">Home</button> <button class="nav-btn" onclick="showPage('about')">About Us</button> <button class="nav-btn" onclick="showPage('sms')">SMS Overview</button> <button class="nav-btn" onclick="showPage('policy')">Safety Policy</button> <button class="nav-btn" onclick="showPage('srm')">Risk Management</button> <button class="nav-btn" onclick="showPage('assurance')">Safety Assurance</button> <button class="nav-btn" onclick="showPage('promotion')">Safety Promotion</button> <button class="nav-btn" onclick="showPage('contact')">Contact</button>
+     </nav>
+    </div>
+   </header>
+   <main>
+    <div class="content-container"><!-- Home Page -->
+     <div id="home" class="page active">
+      <div class="hero">
+       <h2>Welcome to Starline</h2>
+       <p>Your trusted partner in aviation, connecting the Middle East, Europe, and Asia with safe, reliable, and professional air services.</p>
+      </div>
+      <div class="two-column">
+       <div class="info-card">
+        <h4>Our Mission</h4>
+        <p>To connect people and businesses through safe, efficient, and high-quality aviation services that exceed industry standards.</p>
+       </div>
+       <div class="info-card">
+        <h4>Our Vision</h4>
+        <p>To be recognized as a leading regional airline committed to safety excellence, operational reliability, and customer satisfaction.</p>
+       </div>
+       <div class="info-card">
+        <h4>Safety First</h4>
+        <p>Safety is our highest priority. We maintain comprehensive Safety Management Systems and promote a proactive safety culture.</p>
+       </div>
+       <div class="info-card">
+        <h4>Global Reach</h4>
+        <p>Serving destinations across three continents with modern aircraft and professional crew dedicated to your journey.</p>
+       </div>
+      </div>
+     </div><!-- About Page -->
+     <div id="about" class="page">
+      <div class="content-section">
+       <h3>About Starline</h3>
+       <p>Starline is a medium-sized international airline providing reliable passenger and cargo services across the Middle East, Europe, and Asia. Our operations are built on the pillars of safety, professionalism, and continuous improvement.</p>
+       <h4>Our Mission</h4>
+       <p>To connect people and businesses through safe, efficient, and high-quality aviation services that meet and exceed international standards.</p>
+       <h4>Core Values</h4>
+       <ul>
+        <li>Safety as our highest priority in all operations</li>
+        <li>Professional excellence in service delivery</li>
+        <li>Continuous improvement and innovation</li>
+        <li>Integrity and transparency in all business practices</li>
+        <li>Respect for our employees, customers, and partners</li>
+       </ul>
+       <h4>Our Operations</h4>
+       <p>We operate a modern fleet serving key destinations across three continents, providing both passenger and cargo services with a commitment to operational excellence.</p>
+      </div>
+      <div class="two-column">
+       <div class="info-card">
+        <h4>Passenger Operations</h4>
+        <ul>
+         <li>International passenger flights</li>
+         <li>Online booking and check-in systems</li>
+         <li>Modern cabin services</li>
+         <li>Customer-focused service</li>
+        </ul>
+       </div>
+       <div class="info-card">
+        <h4>Cargo Operations</h4>
+        <ul>
+         <li>Dedicated cargo aircraft</li>
+         <li>Dangerous goods handling</li>
+         <li>Cold-chain cargo capability</li>
+         <li>Express freight services</li>
+        </ul>
+       </div>
+      </div>
+     </div><!-- SMS Overview Page -->
+     <div id="sms" class="page">
+      <div class="content-section">
+       <h3>Safety Management System (SMS)</h3>
+       <p>Starline operates a comprehensive Safety Management System in accordance with ICAO Annex 19 and international best practices. Our SMS provides a systematic approach to managing safety risks and ensures continuous improvement of our safety performance.</p>
+       <h4>SMS Components</h4>
+       <p>Our Safety Management System is structured around four key components:</p>
+       <div class="two-column">
+        <div class="info-card">
+         <h4>1. Safety Policy &amp; Objectives</h4>
+         <p>Establishing our commitment to safety through clear policies, defined responsibilities, and measurable safety objectives.</p>
+        </div>
+        <div class="info-card">
+         <h4>2. Safety Risk Management</h4>
+         <p>Systematic identification of hazards and management of safety risks through assessment and mitigation strategies.</p>
+        </div>
+        <div class="info-card">
+         <h4>3. Safety Assurance</h4>
+         <p>Continuous monitoring and evaluation of safety performance to ensure our SMS remains effective and responsive.</p>
+        </div>
+        <div class="info-card">
+         <h4>4. Safety Promotion</h4>
+         <p>Building and sustaining a positive safety culture through training, communication, and employee engagement.</p>
+        </div>
+       </div>
+       <h4>SMS Benefits</h4>
+       <ul>
+        <li>Proactive identification and mitigation of safety risks</li>
+        <li>Enhanced safety culture and employee engagement</li>
+        <li>Improved operational efficiency and decision-making</li>
+        <li>Compliance with international regulations</li>
+        <li>Continuous improvement in safety performance</li>
+       </ul>
+      </div>
+     </div><!-- Safety Policy Page -->
+     <div id="policy" class="page">
+      <div class="content-section">
+       <h3>Safety Policy</h3>
+       <p>At Starline, safety is our highest priority. This policy reflects our commitment to achieving the highest standards of aviation safety in all aspects of our operations.</p>
+       <h4>Our Safety Commitment</h4>
+       <p>We are committed to:</p>
+       <ul>
+        <li>Full compliance with international and national aviation regulations</li>
+        <li>Proactive identification and management of safety risks</li>
+        <li>Promoting a Just Culture that encourages open safety reporting</li>
+        <li>Continuous improvement of safety performance</li>
+        <li>Providing adequate resources to support safety operations</li>
+        <li>Setting and reviewing measurable safety objectives</li>
+       </ul>
+       <h4>Management Commitment</h4>
+       <p>Senior management is accountable for the effective implementation of our Safety Management System and ensures that safety objectives are integrated into all organizational processes and business decisions.</p>
+       <h4>Employee Responsibility</h4>
+       <p>Safety is the responsibility of every employee. All personnel are expected to:</p>
+       <ul>
+        <li>Follow established safety procedures and regulations</li>
+        <li>Report safety concerns without fear of reprisal</li>
+        <li>Participate in safety training and initiatives</li>
+        <li>Contribute to our positive safety culture</li>
+       </ul>
+       <h4>Just Culture</h4>
+       <p>We promote a Just Culture that distinguishes between acceptable and unacceptable behavior. Our environment encourages open reporting while maintaining accountability for deliberate or reckless actions.</p>
+      </div>
+     </div><!-- SRM Page -->
+     <div id="srm" class="page">
+      <div class="content-section">
+       <h3>Safety Risk Management (SRM)</h3>
+       <p>Starline applies a structured Safety Risk Management process to systematically identify hazards, assess risks, and implement effective mitigation measures.</p>
+       <h4>Hazard Identification</h4>
+       <p>Hazards are identified through multiple channels:</p>
+       <ul>
+        <li>Voluntary and confidential reporting systems</li>
+        <li>Internal audits and safety inspections</li>
+        <li>Operational data monitoring and analysis</li>
+        <li>Safety surveys and employee feedback</li>
+        <li>Investigation of incidents and accidents</li>
+        <li>Normal operations monitoring</li>
+       </ul>
+       <h4>Risk Assessment</h4>
+       <p>All identified hazards are systematically assessed using:</p>
+       <ul>
+        <li>Risk severity levels (catastrophic to negligible)</li>
+        <li>Likelihood probability (frequent to extremely improbable)</li>
+        <li>Risk matrix evaluation</li>
+        <li>Risk tolerability criteria</li>
+       </ul>
+       <div class="info-card">
+        <h4>Risk Matrix Approach</h4>
+        <p>We use a standard 5x5 risk matrix to categorize risks as:</p>
+        <ul>
+         <li><strong>High Risk:</strong> Immediate action required</li>
+         <li><strong>Medium Risk:</strong> Mitigation plan developed and monitored</li>
+         <li><strong>Low Risk:</strong> Managed through routine procedures</li>
+        </ul>
+       </div>
+       <h4>Risk Mitigation</h4>
+       <p>Risks are controlled through a hierarchy of mitigation strategies:</p>
+       <ul>
+        <li>Engineering controls and technical solutions</li>
+        <li>Updated standard operating procedures</li>
+        <li>Enhanced training programs</li>
+        <li>Administrative controls and supervision</li>
+        <li>Operational limitations where required</li>
+       </ul>
+       <h4>Documentation and Tracking</h4>
+       <p>All safety risks are documented in our Safety Risk Register and tracked through to closure, ensuring accountability and effectiveness of mitigation measures.</p>
+      </div>
+     </div><!-- Safety Assurance Page -->
+     <div id="assurance" class="page">
+      <div class="content-section">
+       <h3>Safety Assurance</h3>
+       <p>Safety Assurance ensures our Safety Management System remains effective through continuous monitoring, evaluation, and improvement activities.</p>
+       <h4>Safety Performance Monitoring</h4>
+       <p>We continuously monitor our operations through:</p>
+       <ul>
+        <li>Flight operations quality assurance (FOQA)</li>
+        <li>Line operations safety audits (LOSA)</li>
+        <li>Ground operations safety monitoring</li>
+        <li>Maintenance reliability monitoring</li>
+        <li>Safety performance indicators (SPIs)</li>
+       </ul>
+       <h4>Safety Performance Indicators (SPIs)</h4>
+       <p>We track key metrics including:</p>
+       <ul>
+        <li>Flight safety events and occurrences</li>
+        <li>Safety report submission rates</li>
+        <li>Ground damage incidents</li>
+        <li>Safety action closure rates</li>
+        <li>Training compliance rates</li>
+        <li>Audit findings and corrective actions</li>
+       </ul>
+       <h4>Audits and Inspections</h4>
+       <p>Regular safety audits include:</p>
+       <ul>
+        <li>Internal safety audits of all departments</li>
+        <li>External regulatory audits and inspections</li>
+        <li>Safety culture assessments</li>
+        <li>Compliance monitoring activities</li>
+       </ul>
+       <h4>Incident and Accident Investigation</h4>
+       <p>We conduct thorough investigations to:</p>
+       <ul>
+        <li>Identify root causes and contributing factors</li>
+        <li>Develop effective corrective actions</li>
+        <li>Share lessons learned across the organization</li>
+        <li>Prevent recurrence of similar events</li>
+       </ul>
+       <h4>Management of Change</h4>
+       <p>All operational changes are evaluated for safety implications before implementation, ensuring risks are identified and managed proactively.</p>
+       <h4>Management Review</h4>
+       <p>Senior management regularly reviews safety performance data, audit results, and safety trends to ensure resources are appropriately allocated and the SMS remains effective.</p>
+      </div>
+     </div><!-- Safety Promotion Page -->
+     <div id="promotion" class="page">
+      <div class="content-section">
+       <h3>Safety Promotion</h3>
+       <p>Safety Promotion builds and sustains a positive safety culture through comprehensive training programs, effective communication, and active employee participation.</p>
+       <h4>Safety Training Programs</h4>
+       <p>We provide comprehensive safety training including:</p>
+       <ul>
+        <li>SMS training for all new employees during induction</li>
+        <li>Annual recurrent safety training</li>
+        <li>Emergency response drills and exercises</li>
+        <li>Role-specific safety training programs</li>
+        <li>Human factors and crew resource management</li>
+        <li>Just Culture and safety reporting training</li>
+       </ul>
+       <div class="info-card">
+        <h4>Training Philosophy</h4>
+        <p>Our training programs are designed to be practical, engaging, and relevant to daily operations. We use scenario-based learning and real case studies to enhance understanding and retention.</p>
+       </div>
+       <h4>Safety Communication</h4>
+       <p>We promote safety awareness through multiple channels:</p>
+       <ul>
+        <li>Regular safety bulletins and newsletters</li>
+        <li>Departmental safety meetings</li>
+        <li>Lessons-learned briefings</li>
+        <li>Safety campaigns and awareness programs</li>
+        <li>Safety notice boards and digital displays</li>
+        <li>Safety management system portal</li>
+       </ul>
+       <h4>Safety Culture Initiatives</h4>
+       <p>We actively build our safety culture through:</p>
+       <ul>
+        <li>Open and transparent safety communication</li>
+        <li>Recognition of positive safety behaviors</li>
+        <li>Employee safety suggestion programs</li>
+        <li>Safety leadership development</li>
+        <li>Cross-functional safety committees</li>
+       </ul>
+       <h4>Safety Reporting Culture</h4>
+       <p>We encourage proactive safety reporting by:</p>
+       <ul>
+        <li>Providing confidential and non-punitive reporting systems</li>
+        <li>Ensuring timely feedback on reported safety concerns</li>
+        <li>Demonstrating management response to safety issues</li>
+        <li>Sharing positive outcomes from safety reports</li>
+       </ul>
+       <h4>Continuous Improvement</h4>
+       <p>Safety promotion activities are regularly evaluated and improved based on feedback, safety culture surveys, and organizational needs.</p>
+      </div>
+     </div><!-- Contact Page -->
+     <div id="contact" class="page">
+      <div class="content-section">
+       <h3>Contact Us</h3>
+       <p>We welcome your inquiries and feedback. Our team is available to assist you with any questions regarding our operations, services, or safety programs.</p>
+       <div class="contact-grid">
+        <div class="contact-item">
+         <div class="contact-icon">
+          🏢
+         </div>
+         <h4>Head Office</h4>
+         <p id="office-location">Dubai, UAE</p>
+        </div>
+        <div class="contact-item">
+         <div class="contact-icon">
+          ✉️
+         </div>
+         <h4>Email</h4>
+         <p id="email-address">info@aerovistaairways.aero</p>
+        </div>
+        <div class="contact-item">
+         <div class="contact-icon">
+          📞
+         </div>
+         <h4>Phone</h4>
+         <p id="phone-number">+971-4-XXX-XXXX</p>
+        </div>
+       </div>
+       <div style="margin-top: 3rem;">
+        <h4>Business Hours</h4>
+        <p>Our offices operate 24/7 to support global aviation operations.</p>
+        <p style="margin-top: 1.5rem;"><strong>Safety Reporting:</strong> Available 24/7 through our confidential safety reporting system.</p>
+       </div>
+      </div>
+     </div>
+    </div>
+   </main>
+   <footer>
+    <p>© 2024 Starline. All rights reserved.</p>
+    <p>This is a fictional airline created for educational and demonstration purposes.</p>
+   </footer>
+  </div>
+  <script>
+    const defaultConfig = {
+      airline_name: "Starline",
+      tagline: "Excellence in Aviation",
+      email_address: "info@aerovistaairways.aero",
+      phone_number: "+971-4-XXX-XXXX",
+      office_location: "Dubai, UAE",
+      primary_color: "#0284c7",
+      secondary_color: "#0c4a6e",
+      accent_color: "#f0f9ff",
+      text_color: "#1e293b",
+      background_color: "#f8fafc"
+    };
+
+    function showPage(pageId) {
+      const pages = document.querySelectorAll('.page');
+      const buttons = document.querySelectorAll('.nav-btn');
+      
+      pages.forEach(page => page.classList.remove('active'));
+      buttons.forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(pageId).classList.add('active');
+      event.target.classList.add('active');
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    async function onConfigChange(config) {
+      const airlineName = config.airline_name || defaultConfig.airline_name;
+      const tagline = config.tagline || defaultConfig.tagline;
+      const emailAddress = config.email_address || defaultConfig.email_address;
+      const phoneNumber = config.phone_number || defaultConfig.phone_number;
+      const officeLocation = config.office_location || defaultConfig.office_location;
+      const primaryColor = config.primary_color || defaultConfig.primary_color;
+      const secondaryColor = config.secondary_color || defaultConfig.secondary_color;
+      const accentColor = config.accent_color || defaultConfig.accent_color;
+      const textColor = config.text_color || defaultConfig.text_color;
+      const backgroundColor = config.background_color || defaultConfig.background_color;
+
+      document.getElementById('airline-name').textContent = airlineName;
+      document.getElementById('tagline').textContent = tagline;
+      document.getElementById('email-address').textContent = emailAddress;
+      document.getElementById('phone-number').textContent = phoneNumber;
+      document.getElementById('office-location').textContent = officeLocation;
+
+      document.body.style.background = backgroundColor;
+      document.body.style.color = textColor;
+
+      const header = document.querySelector('header');
+      header.style.background = `linear-gradient(135deg, ${secondaryColor} 0%, ${primaryColor} 100%)`;
+
+      const hero = document.querySelector('.hero');
+      if (hero) {
+        hero.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${primaryColor} 100%)`;
+      }
+
+      const navButtons = document.querySelectorAll('.nav-btn');
+      navButtons.forEach(btn => {
+        if (!btn.classList.contains('active')) {
+          btn.style.background = 'rgba(255,255,255,0.1)';
+        }
+      });
+
+      const activeBtn = document.querySelector('.nav-btn.active');
+      if (activeBtn) {
+        activeBtn.style.background = 'white';
+        activeBtn.style.color = secondaryColor;
+      }
+
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(section => {
+        section.style.borderLeftColor = primaryColor;
+      });
+
+      const h3Elements = document.querySelectorAll('.content-section h3');
+      h3Elements.forEach(h3 => {
+        h3.style.color = secondaryColor;
+      });
+
+      const h4Elements = document.querySelectorAll('.content-section h4');
+      h4Elements.forEach(h4 => {
+        h4.style.color = primaryColor;
+      });
+
+      const contactItems = document.querySelectorAll('.contact-item');
+      contactItems.forEach(item => {
+        item.style.background = accentColor;
+        item.style.borderColor = primaryColor;
+      });
+
+      const infoCards = document.querySelectorAll('.info-card');
+      infoCards.forEach(card => {
+        const h4 = card.querySelector('h4');
+        if (h4) {
+          h4.style.color = secondaryColor;
+        }
+      });
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({
+        defaultConfig,
+        onConfigChange,
+        mapToCapabilities: (config) => ({
+          recolorables: [
+            {
+              get: () => config.background_color || defaultConfig.background_color,
+              set: (value) => {
+                config.background_color = value;
+                window.elementSdk.setConfig({ background_color: value });
+              }
+            },
+            {
+              get: () => config.accent_color || defaultConfig.accent_color,
+              set: (value) => {
+                config.accent_color = value;
+                window.elementSdk.setConfig({ accent_color: value });
+              }
+            },
+            {
+              get: () => config.text_color || defaultConfig.text_color,
+              set: (value) => {
+                config.text_color = value;
+                window.elementSdk.setConfig({ text_color: value });
+              }
+            },
+            {
+              get: () => config.primary_color || defaultConfig.primary_color,
+              set: (value) => {
+                config.primary_color = value;
+                window.elementSdk.setConfig({ primary_color: value });
+              }
+            },
+            {
+              get: () => config.secondary_color || defaultConfig.secondary_color,
+              set: (value) => {
+                config.secondary_color = value;
+                window.elementSdk.setConfig({ secondary_color: value });
+              }
+            }
+          ],
+          borderables: [],
+          fontEditable: undefined,
+          fontSizeable: undefined
+        }),
+        mapToEditPanelValues: (config) => new Map([
+          ["airline_name", config.airline_name || defaultConfig.airline_name],
+          ["tagline", config.tagline || defaultConfig.tagline],
+          ["email_address", config.email_address || defaultConfig.email_address],
+          ["phone_number", config.phone_number || defaultConfig.phone_number],
+          ["office_location", config.office_location || defaultConfig.office_location]
+        ])
+      });
+    }
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9aa2f43735b39d86',t:'MTc2NTA5OTI5OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
